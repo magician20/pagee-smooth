@@ -5,4 +5,4 @@
 
 ## Description
 
-Using [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository, to implement my back-end for note app
+Using [Nest](https://github.com/nestjs/nest) framework with TypeScript, to implement my back-end for note app
