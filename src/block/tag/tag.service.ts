@@ -5,6 +5,7 @@ import { fromTagDto } from 'src/shared/mapper';
 import { getRepository } from 'typeorm';
 import { CreateTagBlockDto as CreateTagBlockDto } from './dto/create-tag-block.dto';
 import { GetTagsFilterDto } from './dto/get-filter-tag.dto';
+import { UpdateTagBlockDto } from './dto/update-tag-block.dto';
 import { TagBlock } from './entity/tag-block.entity';
 import { TagBlockRepository as TagBlockRepository } from './entity/tag.repository';
 
@@ -28,11 +29,10 @@ export class TagService {
         return this.TagRepository.createTag(createTagBlockDto, user);
     }
     
-    async editTag(id: number, createTagBlockDto: CreateTagBlockDto, user: User): Promise<TagBlock> {
+    async editTag(id: number, updateTagBlockDto: UpdateTagBlockDto, user: User): Promise<TagBlock> {
         const TagBlock = await this.getTagByID(id, user);
-        const { order, pageId, tag } = createTagBlockDto;
+        const { order, tag } = updateTagBlockDto;
         TagBlock.order = order;
-        TagBlock.pageId = pageId;
         TagBlock.tag = fromTagDto(tag);
 
         //await getRepository(TagBlock).save(TagBlock);

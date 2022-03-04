@@ -22,11 +22,11 @@ export class PageService {
         // @InjectRepository(TagBlockRepository) private tagRepository: TagBlockRepository
     ) { }
 
+    //hide or remove this after test
     // async getPages(filterDto: GetPagesFilterDto, user: User): Promise<PageDto[]> {
     //     return this.pageRepository.getPages(filterDto, user);
     // }
 
-    //  
     async paginate(options: IPaginationOptions, filterDto: GetPagesFilterDto, user: User): Promise<Pagination<PageDto>> {
         const queryBuilder = this.pageRepository.createQueryBuilder('page').leftJoinAndSelect("page.content", "block");
         if (filterDto !== null || filterDto !== undefined) {
@@ -101,9 +101,10 @@ export class PageService {
         const page = await this.getPageByID(id, user);
         const { title, color, status, noteState } = createPageDto;
         page.title = title;
-        page.color = color;
-        page.status = status;
-        page.noteState = noteState;
+         //this to handle the optional
+         if (color!=null) { page.color = color; }
+         if (status!=null) { page.status = status; }
+         if (noteState!=null) { page.noteState = noteState; }
 
         await page.save();
         return toPageDto(page);
@@ -118,11 +119,11 @@ export class PageService {
     }
 
     //IDK if that Good way
-    async updatePagesStatus(id: number[], status: TaskStatus, user: User): Promise<PageDto[]> {
+    async updatePagesStatus(ids: number[], status: TaskStatus, user: User): Promise<PageDto[]> {
         //IDK if this good way
         var pagesDto: PageDto[] = [];
-        for (let index = 0; index < id.length; index++) {
-            const element = id[index];
+        for (let index = 0; index < ids.length; index++) {
+            const element = ids[index];
             const page = await this.updatePageStatus(element, status, user);
             pagesDto.push(page);
         }
@@ -138,11 +139,11 @@ export class PageService {
     }
 
     //IDK if that Good way
-    async updatePagesState(id: number[], noteState: NoteState, user: User): Promise<PageDto[]> {
+    async updatePagesState(ids: number[], noteState: NoteState, user: User): Promise<PageDto[]> {
         //IDK if this good way
         var pagesDto: PageDto[] = [];
-        for (let index = 0; index < id.length; index++) {
-            const element = id[index];
+        for (let index = 0; index < ids.length; index++) {
+            const element = ids[index];
             const page = await this.updatePageState(element, noteState, user);
             pagesDto.push(page);
         }
@@ -167,12 +168,12 @@ export class PageService {
         const queryBuilder = this.pageRepository.createQueryBuilder();
         queryBuilder.where('noteState=:noteState', { noteState: "DELETED" });
         let result = await queryBuilder.delete().execute();
-       // console.log(result.affected);
+        // console.log(result.affected);
     }
 
     async deletePageByID(id: number, user: User): Promise<void> {
         //delete do less read and using condation
-        const result = await this.pageRepository.delete({ id, userId: user.id });//delte one row
+        const result = await this.pageRepository.delete({ id, userId: user.id });//delete one row
         //check effect to know if it's done
         if (result.affected == 0) {
             throw new NotFoundException(`Page with ID "${id}" not found.`);

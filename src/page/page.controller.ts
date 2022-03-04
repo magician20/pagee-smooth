@@ -21,14 +21,16 @@ export class PageController {
 
       constructor(private pageService: PageService) { }
 
+      //hide or remove this after test
       // @Get()
       // getPages(
       //       @Query(ValidationPipe) filterDto: GetPagesFilterDto,
       //       @GetUser() user: User,
       // ): Promise<PageDto[]> {
-      //       //get all pages
+      //      // if (Object.keys(filterDto).length) //check filter have data (call service to return) or not (return all data or return void)
       //       return this.pageService.getPages(filterDto, user);
       // }
+
       @Get()
       index(
             @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
@@ -88,22 +90,21 @@ export class PageController {
       //IDK if that Good way
       @Patch('/state/change')
       updatePagesState(
-            @Body('id', new ParseArrayPipe({ items: Number })) id: number[],
+            @Body('ids', new ParseArrayPipe({ items: Number })) ids: number[],
             @Body('noteState', TaskStateValidationPipe) noteState: NoteState,
             @GetUser() user: User,
       ): Promise<PageDto[]> {
-
-            return this.pageService.updatePagesState(id, noteState, user);
+            return this.pageService.updatePagesState(ids, noteState, user);
       }
       
        //IDK if that Good way
       @Patch('/status/change')
       updatePagesStatus(
-            @Body('id', new ParseArrayPipe({ items: Number })) id: number[],
+            @Body('ids', new ParseArrayPipe({ items: Number })) ids: number[],
             @Body('status', TaskStatusValidationPipe) status: TaskStatus,
             @GetUser() user: User,
       ): Promise<PageDto[]> {
-            return this.pageService.updatePagesStatus(id, status, user);
+            return this.pageService.updatePagesStatus(ids, status, user);
       }
 
 

@@ -21,7 +21,10 @@ export class BlockService {
     private textService: TextService,
   ) { }
 
-  //posgresql problem with id cause it increase automitcally when save trigger
+  //posgresql problem with id cause it increase automitcally when save trigger also i need to return DTO better
+  /** 
+   * Used to transform from one block type to another if it's valid to do that
+  */
   async turnInto(id: number, turnIntoBlockDto: TurnIntoBlockDto, user: User): Promise<Block> {
     const { type_from, type_to } = turnIntoBlockDto;
 
@@ -33,7 +36,7 @@ export class BlockService {
       let todoBlock = new TodoBlock();
       todoBlock.todo = new Todo();
       try {
-        //todoBlock.id = textBlock.id;//autoincrement generate 
+        //todoBlock.id = textBlock.id; //autoincrement generate (bad code) 
         todoBlock.userId = user.id;
         todoBlock.order = textBlock.order;
         todoBlock.pageId = textBlock.pageId;
@@ -48,7 +51,7 @@ export class BlockService {
       //Save the new one 
       await todoBlock.save();
 
-      //delete todoBlock.userId;
+      delete todoBlock.userId;
 
       return todoBlock;
     }
@@ -72,7 +75,7 @@ export class BlockService {
     //Save the new one 
     await textBlock.save();
 
-    //delete textBlock.userId;
+    delete textBlock.userId;
 
     return textBlock;
   }

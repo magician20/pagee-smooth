@@ -10,6 +10,12 @@ import { toPageDto } from "src/shared/mapper";
 @EntityRepository(Page)
 export class PageRepository extends Repository<Page>{
 
+    /**
+     * Filter list of pages depend on @param filterDto
+     * @param filterDto obj filter data
+     * @param user for auth
+     * @returns PageDto[]
+     */
     async getPages(filterDto: GetPagesFilterDto, user: User): Promise<PageDto[]> {
         const { noteState, status, search } = filterDto;
         //featch Pages with todo[]
@@ -43,10 +49,10 @@ export class PageRepository extends Repository<Page>{
         page.userId = user.id;
         page.title = title;
         //this to handle the optional but better if i have default value
-        if (!color) { page.color = color; }
-        if (!status) { page.status = status; }
-        if (!noteState) { page.noteState = noteState; }
-       
+        if (color != null) { page.color = color; }
+        if (status != null) { page.status = status; }
+        if (noteState != null) { page.noteState = noteState; }
+
 
         await page.save();
         delete page.userId;

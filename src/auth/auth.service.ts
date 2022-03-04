@@ -43,7 +43,8 @@ export class AuthService {
       return { accesstoken };
    }
 
-    getAuthUserInfo(user: User): UserDto{
+
+   getAuthUserInfo(user: User): UserDto{
       return toUserDto(user);
   }
 

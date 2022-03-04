@@ -7,6 +7,6 @@ export class AuthCredentialsDto {
 
     @IsNotEmpty()
     @IsString()
-    password: string;
+    password: string;//maybe also i handle null password here
 
 }

@@ -6,6 +6,9 @@ import { Tag } from "./tag.entity";
 @ChildEntity()
 export class TagBlock extends Block {
 
+    // @Column({ default: 'tag' })
+    // object: string;
+
     @Column(() => Tag)
     @IsNotEmpty()
     tag: Tag;

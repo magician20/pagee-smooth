@@ -4,6 +4,7 @@ import { GetUser } from 'src/auth/decorators/get-user.decorator';
 import { User } from 'src/auth/entity/user.entity';
 import { CreateTagBlockDto as CreateTagBlockDto } from './dto/create-tag-block.dto';
 import { GetTagsFilterDto as GetTagsFilterDto } from './dto/get-filter-tag.dto';
+import { UpdateTagBlockDto } from './dto/update-tag-block.dto';
 import { TagBlock as TagBlock } from './entity/tag-block.entity';
 import { TagService as TagService } from './tag.service';
 
@@ -41,10 +42,10 @@ export class TagController {
     @Patch('/:id')
     editTag(
         @Param('id', ParseIntPipe) id: number,
-        @Body(ValidationPipe) createTagBlockDto: CreateTagBlockDto,
+        @Body(ValidationPipe) updateTagBlockDto: UpdateTagBlockDto,
         @GetUser() user: User,
     ): Promise<TagBlock> {
-        return this.TagService.editTag(id, createTagBlockDto, user);
+        return this.TagService.editTag(id, updateTagBlockDto, user);
     }
 
     @Delete('/:id')

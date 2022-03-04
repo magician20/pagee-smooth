@@ -7,6 +7,9 @@ import { Todo } from "./todo.entity";
 @ChildEntity()
 export class TodoBlock extends Block {
 
+    // @Column({ default: 'todo' })
+    // object: string;
+
     @Column(() => Todo)
     @IsNotEmpty()
     todo: Todo;

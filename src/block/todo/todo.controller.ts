@@ -5,6 +5,7 @@ import { User } from 'src/auth/entity/user.entity';
 import { CreateTodoBlockDto } from './dto/create-todo-block';
 import { GetTodossFilterDto } from './dto/get-filter-todo.dto';
 import { IsCompletedDto } from './dto/is-completed-todo.dto';
+import { UpdateTodoBlockDto } from './dto/update-todo-block';
 import { TodoBlock } from './entity/todo-block.entity';
 import { TodoService } from './todo.service';
 
@@ -44,11 +45,11 @@ export class TodoController {
     @Patch('/:id')
     editTodoBlock(
         @Param('id', ParseIntPipe) id: number,
-        @Body(ValidationPipe) createTodoBlockDto: CreateTodoBlockDto,
+        @Body(ValidationPipe) updateTodoBlockDto: UpdateTodoBlockDto,
         //@Body('pageId', ParseIntPipe) pageId: number,
         @GetUser() user: User,
     ): Promise<TodoBlock> {
-        return this.todoService.editTodoBlock(id, createTodoBlockDto, user);
+        return this.todoService.editTodoBlock(id, updateTodoBlockDto, user);
     }
 
 

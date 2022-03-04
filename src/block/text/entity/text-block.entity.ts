@@ -7,6 +7,9 @@ import { Text } from "./text.entity";
 @ChildEntity()
 export class TextBlock extends Block {
 
+    // @Column({ default: 'text' })
+    // object: string;
+
     @Column(() => Text)
     text: Text;
 

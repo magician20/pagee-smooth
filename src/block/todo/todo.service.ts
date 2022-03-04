@@ -6,6 +6,7 @@ import { getRepository } from 'typeorm';
 import { CreateTodoBlockDto } from './dto/create-todo-block';
 import { GetTodossFilterDto } from './dto/get-filter-todo.dto';
 import { IsCompletedDto } from './dto/is-completed-todo.dto';
+import { UpdateTodoBlockDto } from './dto/update-todo-block';
 import { TodoBlock } from './entity/todo-block.entity';
 import { TodoBlockRepository } from './entity/todo.repository';
 
@@ -31,12 +32,12 @@ export class TodoService {
     }
 
 
-    async editTodoBlock(id: number, createTodoBlockDto: CreateTodoBlockDto, user: User): Promise<TodoBlock> {
+    async editTodoBlock(id: number, updateTodoBlockDto: UpdateTodoBlockDto, user: User): Promise<TodoBlock> {
         const todoBlock = await this.getTodoBlockByID(id, user);
-        const { todo, pageId} = createTodoBlockDto;
+        const { todo, order} = updateTodoBlockDto;
        // const todoCase={...todo,isDone:todo.isDone.toLowerCase()} //I lowerCase value before store that cause of not able to use @Transform()
         todoBlock.todo = fromTodoDto(todo);
-        todoBlock.pageId = pageId;
+        todoBlock.order = order;
         todoBlock.userId = user.id;
 
         //await getRepository(TodoBlock).save(todoBlock);

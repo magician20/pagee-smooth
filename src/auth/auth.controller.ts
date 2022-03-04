@@ -25,7 +25,7 @@ export class AuthController {
 
 
 
-    //built for make client can easy cuurent user depend on token if it's valid
+    //built for generate current user from token if it's valid
     //still iam not sure about this way
     @Get('/auth')
     @UseGuards(AuthGuard())

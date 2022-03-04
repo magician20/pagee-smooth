@@ -9,7 +9,7 @@ import { TagDto } from "src/block/tag/dto/tag.dto";
 import { Text } from "src/block/text/entity/text.entity";
 import { TextDto } from "src/block/text/dto/text.dto";
 
-///Define how json will be look like
+///Change DTO object to our data object type or vers
 
 export const toUserDto = (data: User): UserDto => {
     const { firstName,lastName, email, userRole, created_at, updated_at } = data;

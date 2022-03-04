@@ -1,7 +1,7 @@
 import { Exclude } from "class-transformer";
 import { User } from "src/auth/entity/user.entity";
 import { Page } from "src/page/entity/page.entity";
-import { BaseEntity, Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, TableInheritance, UpdateDateColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, TableInheritance, Unique, UpdateDateColumn } from "typeorm";
 
 @Entity()
 @TableInheritance({ column: { type: "varchar", name: "type" } })
@@ -10,12 +10,15 @@ export abstract class Block extends BaseEntity {
     @PrimaryGeneratedColumn({ type: 'bigint', })
     id?: number;
 
+    //here maybe we need change the object from block to subtype objects !! and update their entity files
     @Column({ default: 'block' })
     object: string;
 
-    //below maybe removed and have them inside another table that manage list of Blocks
-    @Column()//{ unique: true }
+    //if we use that as unique then chnage get by id to get by orderNo and page id
+    @Column(/*{ unique: true }*/) //i think it's better to use orderNo as a unique insted of Primary key
     order: number;
+
+    
     @CreateDateColumn({ type: 'timestamptz' })
     created_at: Date;
 

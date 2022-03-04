@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/auth/entity/user.entity';
 import { fromTextDto } from 'src/shared/mapper';
 import { CreateTextBlockDto } from './dto/create-text-block.dto';
+import { UpdateTextBlockDto } from './dto/update-text-block.dto';
 import { TextBlock } from './entity/text-block.entity';
 import { TextBlockRepository } from './entity/text.repository';
 
@@ -23,12 +24,11 @@ export class TextService {
         return found;
     }
 
-    async editText(id: number, createTextBlockDto: CreateTextBlockDto, user: User): Promise<TextBlock> {
+    async editText(id: number, updateTextBlockDto: UpdateTextBlockDto, user: User): Promise<TextBlock> {
         const textBlock = await this.getTextByID(id, user);
-        const { order, pageId, text } = createTextBlockDto;
+        const { order, text } = updateTextBlockDto;
         //Insert values
         textBlock.order = order;
-        textBlock.pageId = pageId;
         textBlock.text = fromTextDto(text);
         //await getRepository(TextBlock).save(textBlock);
         

@@ -1,6 +1,7 @@
 //import { UserRole } from "../user-role.enum";
 
 export interface JwtPayload{
+    userTokenNumber: String;
     userName:string;   
-    userTokenNumber: String; 
+    //we can also add role here 
 }
