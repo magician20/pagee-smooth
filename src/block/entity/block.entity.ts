@@ -5,6 +5,7 @@ import { BaseEntity, Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, Pr
 
 @Entity()
 @TableInheritance({ column: { type: "varchar", name: "type" } })
+//@Unique(["order","pageId"])
 export abstract class Block extends BaseEntity {
 
     @PrimaryGeneratedColumn({ type: 'bigint', })
@@ -14,8 +15,8 @@ export abstract class Block extends BaseEntity {
     @Column({ default: 'block' })
     object: string;
 
-    //if we use that as unique then chnage get by id to get by orderNo and page id
-    @Column(/*{ unique: true }*/) //i think it's better to use orderNo as a unique insted of Primary key
+   //using orderNo & PageId as a unique insted of Primary key (will be better bcs id will increase every crud done for each block-Type)
+    @Column()
     order: number;
 
     
