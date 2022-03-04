@@ -7,4 +7,4 @@
 
 Using [Nest](https://github.com/nestjs/nest) framework with TypeScript, to implement my back-end for note app.
 The Idea of the Noe App simillar to [Notion](https://www.notion.so/) 
-<a href="url"><img src="https://files.fm/u/banhfjksd#/view/gqme4qkgp"  height="30" width="30" ></a>
+<a href="url"><img src="./wiki/Notion_app_logo.png"  height="30" width="30" ></a>
