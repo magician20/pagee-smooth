@@ -49,9 +49,9 @@ export class PageRepository extends Repository<Page>{
         page.userId = user.id;
         page.title = title;
         //this to handle the optional but better if i have default value
-        if (color != null) { page.color = color; }
-        if (status != null) { page.status = status; }
-        if (noteState != null) { page.noteState = noteState; }
+        page.color = color;
+        page.status = status;
+        page.noteState = noteState;
 
 
         await page.save();

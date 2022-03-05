@@ -33,6 +33,7 @@ export class TextService {
         //await getRepository(TextBlock).save(textBlock);
         
         await textBlock.save();
+        delete textBlock.userId;
         return textBlock;
     }
 

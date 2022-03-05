@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsNotEmpty, IsNumber, } from "class-validator";
+import { IsNotEmpty, IsNotEmptyObject, IsNumber, } from "class-validator";
 import { TagDto } from "./tag.dto";
 
 export class UpdateTagBlockDto {
@@ -9,8 +9,8 @@ export class UpdateTagBlockDto {
     @IsNotEmpty()
     order: number;
 
-    @IsNotEmpty()
-   // @IsObject()
+
+    @IsNotEmptyObject()
     @Type(() => TagDto)
     tag: TagDto;
 

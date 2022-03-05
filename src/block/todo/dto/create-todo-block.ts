@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsNotEmpty, IsNumber, } from "class-validator";
+import { IsNotEmpty, IsNotEmptyObject, IsNumber, } from "class-validator";
 import { TodoDto } from "./todo.dto";
 
 
@@ -15,8 +15,7 @@ export class CreateTodoBlockDto {
     @IsNotEmpty()
     pageId: number;
 
-    @IsNotEmpty()
-// @IsObject()
+    @IsNotEmptyObject()
     @Type(() => TodoDto)
     todo: TodoDto;
 

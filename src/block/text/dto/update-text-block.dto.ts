@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsNotEmpty, IsNumber, } from "class-validator";
+import { IsNotEmpty, IsNotEmptyObject, IsNumber, } from "class-validator";
 import { TextDto } from "./text.dto";
 
 
@@ -10,7 +10,7 @@ export class UpdateTextBlockDto  {
     @IsNotEmpty()
     order: number;
 
-   // @IsObject()
+    @IsNotEmptyObject()
     @Type(() => TextDto)
     text: TextDto;
 

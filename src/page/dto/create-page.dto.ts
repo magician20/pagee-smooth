@@ -12,6 +12,7 @@ export class CreatePageDto {
     title: string;
 
     @IsOptional()
+    @IsNotEmpty() //optional but you can't pass empty
     color: string;
 
     @IsOptional()
@@ -22,10 +23,10 @@ export class CreatePageDto {
     @IsEnum(NoteState)
     noteState: NoteState;
 
-    ///the easy way is not add this for now !!?
+    /// (away to pass all blocks one time ans safe )the easy way is not add this for now !!?
     // need to add this so i can update page with the new content easy insted of insert each block when it's create
     // @IsOptional()
     // @IsArray()
-    // @Type(() => CreateBlockDto,)  //havde different subtype so this will not work
+    // @Type(() => CreateBlockDto,)  //have different subtype so this will not work
     // content: CreateBlockDto[];
 }

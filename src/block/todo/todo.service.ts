@@ -38,10 +38,10 @@ export class TodoService {
        // const todoCase={...todo,isDone:todo.isDone.toLowerCase()} //I lowerCase value before store that cause of not able to use @Transform()
         todoBlock.todo = fromTodoDto(todo);
         todoBlock.order = order;
-        todoBlock.userId = user.id;
 
         //await getRepository(TodoBlock).save(todoBlock);
         await todoBlock.save();
+        delete todoBlock.userId;
         return todoBlock;
     }
 

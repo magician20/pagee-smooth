@@ -37,6 +37,7 @@ export class TagService {
 
         //await getRepository(TagBlock).save(TagBlock);
         await TagBlock.save();
+        delete TagBlock.userId;
         return TagBlock;
     }
     

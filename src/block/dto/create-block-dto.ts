@@ -5,8 +5,8 @@ import { TextDto } from "../text/dto/text.dto";
 import { TodoDto } from "../todo/dto/todo.dto";
 import { BlockDto } from "./block.dto";
 
-//error here because order
-export abstract class CreateBlockDto {
+///This calss not used yet
+export abstract class CreateBlockDto {//error here because order
 
     @Type(() => Number)
     @IsNumber()
