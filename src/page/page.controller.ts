@@ -51,6 +51,7 @@ export class PageController {
       }
 
       @Post()
+      @UsePipes(ValidationPipe)
       createPage(
             @Body(ValidateCreatePagePipe) createPageDto: CreatePageDto,
             @GetUser() user: User,
@@ -59,6 +60,7 @@ export class PageController {
       }
 
       @Patch('/:id')
+      @UsePipes(ValidationPipe)
       savePage(
             @Param('id', ParseIntPipe) id: number,
             @Body(ValidateCreatePagePipe) createPageDto: CreatePageDto,
