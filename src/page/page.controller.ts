@@ -6,9 +6,9 @@ import { CreatePageDto } from './dto/create-page.dto';
 import { GetPagesFilterDto } from './dto/get-filter-page.dto';
 import { PageDto } from './dto/page.dto';
 import { Page } from './entity/page.entity';
-import { ValidateCreatePagePipe } from './pipes/page-create-validation-pipe';
-import { TaskStateValidationPipe } from './pipes/task-state-validation-pipe';
-import { TaskStatusValidationPipe } from './pipes/task-status-validation-pipe';
+import { ValidateCreatePagePipe } from './pipes/page-create-validation.pipe';
+import { TaskStateValidationPipe } from './pipes/task-state-validation.pipe';
+import { TaskStatusValidationPipe } from './pipes/task-status-validation.pipe';
 import { NoteState, TaskStatus } from './task-status.enum';
 import { PageService } from './page.service';
 import { Pagination } from 'nestjs-typeorm-paginate';
@@ -51,7 +51,6 @@ export class PageController {
       }
 
       @Post()
-      @UsePipes(ValidationPipe)
       createPage(
             @Body(ValidateCreatePagePipe) createPageDto: CreatePageDto,
             @GetUser() user: User,
@@ -60,7 +59,6 @@ export class PageController {
       }
 
       @Patch('/:id')
-      @UsePipes(ValidationPipe)
       savePage(
             @Param('id', ParseIntPipe) id: number,
             @Body(ValidateCreatePagePipe) createPageDto: CreatePageDto,
