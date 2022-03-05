@@ -6,7 +6,7 @@ import { ArgumentMetadata, BadRequestException, Injectable, PipeTransform } from
 export class ValidateCreatePagePipe implements PipeTransform {
     transform(value: any, metatype: ArgumentMetadata) {
         if (!Object.keys(value).length) {
-            throw new BadRequestException('Payload should not be empty without one of these fields: Title or Description');
+            throw new BadRequestException('Body should not be empty without one of these fields: title or description');
         }
 
         return value;
