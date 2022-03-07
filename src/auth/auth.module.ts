@@ -10,10 +10,10 @@ import { JwtStrategy } from './jwt/jwt.strategy';
 
 @Module({
     imports: [
-        PassportModule.register({defaultStrategy:"jwt",}),
+        PassportModule.register({ defaultStrategy: "jwt", }),
         JwtModule.register({
-            secret:jwtConstants.secret,
-            signOptions:{expiresIn:jwtConstants.expiresIn,},//using the default HS256 -- algorithm:"HS512"
+            secret: jwtConstants.secret,
+            signOptions: { expiresIn: jwtConstants.expiresIn, },//using the default HS256 -- algorithm:"HS512"
         }),
         TypeOrmModule.forFeature([UserRepository]),
     ],
@@ -22,8 +22,8 @@ import { JwtStrategy } from './jwt/jwt.strategy';
         AuthService,
         JwtStrategy,
     ],
-    exports:[JwtStrategy,PassportModule]
+    exports: [JwtStrategy, PassportModule]
 })
 export class AuthModule {
-    
- }
+
+}
