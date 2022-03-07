@@ -23,9 +23,9 @@ export class AuthService {
 
 
    async signIn(authCredentialsDto: AuthCredentialsDto): Promise<{ accesstoken: string; }> {
-      //check the validation
+      //check if user exist if not return null
       const user = await this.userRepository.validateUserPassword(authCredentialsDto);
-      
+      //check if user null
       if (!user) {
          throw new UnauthorizedException("Invalid credentials");
       }

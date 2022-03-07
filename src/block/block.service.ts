@@ -50,9 +50,7 @@ export class BlockService {
       await this.textService.deleteTextByID(id, user);
       //Save the new one 
       await todoBlock.save();
-
       delete todoBlock.userId;
-
       return todoBlock;
     }
     //get the todo that will be turnInto text
@@ -60,7 +58,7 @@ export class BlockService {
     //Create the todo by taking the data from text
     //check first type_to
     let textBlock = new TextBlock();
-    textBlock.text = new Text();
+    textBlock.text = new Text();  //this is Text Entity Class
     try {
       //textBlock.id = todoBlock.id;//autoincrement generate 
       textBlock.userId = user.id;

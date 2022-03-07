@@ -6,8 +6,9 @@ export class Todo {
 
     // @Column(()=>Text)
     // text: Text;
-    @Column({ type: "text" ,  nullable: true, })
-    content: string | null;
+    
+    @Column({ type: "text" , })
+    content: string ;
 
     @Column()
     isDone: string;

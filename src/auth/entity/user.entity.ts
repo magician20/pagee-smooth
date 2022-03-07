@@ -7,24 +7,18 @@ import * as bcrypt from "bcrypt";
 import { Page } from "src/page/entity/page.entity";
 import { Block } from "src/block/entity/block.entity";
 import { Exclude } from "class-transformer";
-import { Name } from "./name.entity";
 
 @Entity()
 @Unique(["email"])
 export class User extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
-
-    // @Column()
-    // userName: string;
-
+    //i wanted to replace firstName and lastName with Name Entity
     @Column({ length: 20, name: "first_name" })
     firstName: string;
 
     @Column({ length: 20, name: "last_name" })
     lastName: string;
-
-
 
     @Column()
     email: string;
@@ -62,7 +56,7 @@ export class User extends BaseEntity {
     @Generated("uuid")
     utid: string;
 
-    ///Validate Password before LogIn
+    /// Custom Method (run business logic aginst a specific user instance ) to Validate Password before LogIn
     async validatePassword(password: string): Promise<boolean> {
         const hash = await bcrypt.hash(password, this.salt);
         return hash === this.password;   //bcrypt.compare(hash,this.password) not working ??

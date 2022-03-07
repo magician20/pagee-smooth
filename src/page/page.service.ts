@@ -8,7 +8,7 @@ import { GetPagesFilterDto } from './dto/get-filter-page.dto';
 import { User } from 'src/auth/entity/user.entity';
 import { PageDto } from './dto/page.dto';
 import { toPageDto } from 'src/shared/mapper';
-import { paginate, Pagination, IPaginationOptions, } from 'nestjs-typeorm-paginate';
+import { Pagination, IPaginationOptions, } from 'nestjs-typeorm-paginate';
 import { Cron, CronExpression } from '@nestjs/schedule';
 
 
@@ -17,9 +17,6 @@ export class PageService {
 
     constructor(
         @InjectRepository(PageRepository) private pageRepository: PageRepository,
-        // @InjectRepository(TextBlockRepository) private textRepository: TextBlockRepository,
-        // @InjectRepository(TodoBlockRepository) private todoRepository: TodoBlockRepository,
-        // @InjectRepository(TagBlockRepository) private tagRepository: TagBlockRepository
     ) { }
 
     //hide or remove this after test
@@ -28,24 +25,7 @@ export class PageService {
     // }
 
     async paginate(options: IPaginationOptions, filterDto: GetPagesFilterDto, user: User): Promise<Pagination<PageDto>> {
-        const queryBuilder = this.pageRepository.createQueryBuilder('page').leftJoinAndSelect("page.content", "block");
-        if (filterDto !== null || filterDto !== undefined) {
-            const { noteState, status, search } = filterDto;
-            //featch Pages by userID
-            queryBuilder.where('page.userId = :userId', { userId: user.id });
-            if (status) {
-                queryBuilder.andWhere('page.status=:status', { status });
-            }
-            if (noteState) {
-                queryBuilder.andWhere('page.noteState=:noteState', { noteState });
-            }
-            //here this problem with staf like {+,--,*,/}
-            if (search) {
-                queryBuilder.andWhere('(LOWER(page.title) LIKE LOWER(:search))', { search: `%${search}%` });
-            }
-        }
-        queryBuilder.orderBy('page.created_at', "DESC")
-        return paginate<PageDto>(queryBuilder, options);
+        return this.pageRepository.paginate(options, filterDto, user);
     }
 
     async getPageByID(id: number, user: User): Promise<Page> {
@@ -57,43 +37,8 @@ export class PageService {
     }
 
 
-    async createPage(
-        createPageDto: CreatePageDto,
-        user: User,
-    ): Promise<PageDto> {
+    async createPage(createPageDto: CreatePageDto,user: User,): Promise<PageDto> {
         return this.pageRepository.createPage(createPageDto, user,);
-        // const { content } = createPageDto;
-        // console.log(content);
-        // let pageId: number = pageDto.id;
-        // if (content === undefined || content.length == 0) {
-        //     return pageDto;
-        // }
-        // //should loop content then save depend on type
-        // content.forEach(data => {
-        //     const { order, __type, blockdto } = data;
-        //     console.log(data);
-
-        //     if (blockdto instanceof TextDto || __type === 'textDto') {
-        //         console.log("TextDto");
-        //         let text = blockdto as TextDto;//undefined
-        //         this.textRepository.createText({ order, pageId, text }, user)
-        //     }
-        //     if (blockdto instanceof TodoDto || __type === 'todoDto') {
-        //         console.log("TodoDto");
-        //         let todo = blockdto as TodoDto;//undefined
-        //         this.todoRepository.createTodo({ order, pageId, todo }, user)
-
-        //     }
-        //     if (blockdto instanceof TagDto || __type === 'tagDto') {
-        //         console.log("TagDto");
-        //         let tag = blockdto as TagDto;//undefined
-        //         this.tagRepository.createTag({ order, pageId, tag }, user)
-
-        //     }
-        // });
-
-        // let found = await this.getPageByID(pageDto.id, user);
-        // return toPageDto(found);
     }
 
 
@@ -161,13 +106,16 @@ export class PageService {
         // });
     }
 
-    //This Method will Kill every Page have state deleted EveryWeek (Dum mmmm...)
-    //maybe upgrade this to be implemented for each user depend on which date page deleted (but this will be complicated) 
-    @Cron(CronExpression.EVERY_WEEK, { name: 'KillPages' })
+    //This Method will Kill every Page have state deleted Everyday (Dum mmmm...)
+    //insted myabe delete depend on update-date of the page if it's more than 7days will be deleted
+    @Cron(CronExpression.EVERY_DAY_AT_1AM, { name: 'KillPages' })
     async clearForEverPagesDeleted() {
+        let today : Date = new Date();
+        let nextSevenDays =today.setDate(today.getDate() + 1);
         const queryBuilder = this.pageRepository.createQueryBuilder();
-        queryBuilder.where('noteState=:noteState', { noteState: "DELETED" });
-        let result = await queryBuilder.delete().execute();
+        queryBuilder.where('page.noteState=:noteState', { noteState: "DELETED" });
+        queryBuilder.andWhere('page.updated_at <= :nextSevenDays',{ nextSevenDays })
+        await queryBuilder.delete().execute();
         // console.log(result.affected);
     }
 

@@ -11,20 +11,20 @@ const PG_UNIQUE_CONSTRAINT_VIOLATION = "23505";
 export class UserRepository extends Repository<User>{
 
     async singUp(createUserDto: CreateUserDto): Promise<void> {
-        const { firstName,lastName, email, password } = createUserDto;
-
+        const { firstName, lastName, email, password } = createUserDto;
+        //generate a unique salt for each user
         const salt = await bcrypt.genSalt();
 
         const user = new User();
         user.firstName = firstName;
         user.lastName = lastName;
         user.email = email;
-        user.password = await this.hashPassword(password, salt);;
         user.salt = salt;
+        user.password = await this.hashPassword(password, salt);;
         try {
             await user.save();
         } catch (error) {
-            if (error && error.code == PG_UNIQUE_CONSTRAINT_VIOLATION) {//duplicate email
+            if (error && error.code == PG_UNIQUE_CONSTRAINT_VIOLATION) { //duplicate email
                 throw new ConflictException("Email already exists");
             } else {
                 throw new InternalServerErrorException();
@@ -33,25 +33,26 @@ export class UserRepository extends Repository<User>{
 
     }
 
+    //Method to validate the password
     async validateUserPassword(authCredentialsDto: AuthCredentialsDto): Promise<User> {
         const { email, password } = authCredentialsDto;
-        const user = await this.findOne({email});
+        const user = await this.findOne({ email });
         //validate Passowrd using bcrypt  
         if (user && await user.validatePassword(password)) {
             return user;
         }
-            return null;       
+        return null;
     }
 
-
+    // Method to hashPassword
     private async hashPassword(password: string, salt: string): Promise<string> {
         return bcrypt.hash(password, salt);
     }
 
     //get user from payload
-    async getUserPayload(userTokenNumber:String) : Promise<User>{
+    async getUserPayload(userTokenNumber: String): Promise<User> {
         const queryBuilder = this.createQueryBuilder('user');
-       return await queryBuilder.where('user.utid = :utid', { utid: userTokenNumber }).getOne();
+        return await queryBuilder.where('user.utid = :utid', { utid: userTokenNumber }).getOne();
 
     }
 
