@@ -12,7 +12,7 @@ import { TodoService } from './todo.service';
     ],
     controllers: [TodoController],
     providers: [TodoService],
-    exports: [TodoService]
+    exports: [TodoService,TodoBlockRepository]
 
 })
 export class TodoModule { }
