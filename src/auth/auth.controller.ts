@@ -4,7 +4,7 @@ import { AuthService } from './auth.service';
 import { GetUser } from './decorators/get-user.decorator';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UserDto } from './dto/user.dto';
+import { UserDto } from 'src/auth/dto/user.dto';
 import { User } from './entity/user.entity';
 
 @Controller()
@@ -22,8 +22,6 @@ export class AuthController {
         : Promise<{ accesstoken: string; }> {
         return this.authService.signIn(authCredentialsDto);
     }
-
-
 
     //built for generate current user from token if it's valid
     //still iam not sure about this way
